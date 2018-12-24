@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         // Calculate move delta
         Vector3 moveVector = Vector3.zero;
         moveVector.x = (targetPosition - transform.position).normalized.x * speed;
+        print(moveVector.x);
         // Calculate Y
         bool isGrounded = controller.isGrounded;
         anim.SetBool(GROUNDED, isGrounded);
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 verticalVelocity = -jumpForce; // jump
             }
         }
-        moveVector.y = verticalVelocity;// -0.1f;
+        moveVector.y = verticalVelocity;
         moveVector.z = speed;
 
         // Move Player
@@ -96,6 +97,6 @@ public class PlayerController : MonoBehaviour
     void MoveLand(bool direc)
     {
         desiredLand += !direc ? -1 : 1;
-        desiredLand = Mathf.Clamp(desiredLand, LEFT, 2);
+        desiredLand = Mathf.Clamp(desiredLand, LEFT, RIGHT);
     }
 }
