@@ -5,36 +5,60 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Animator anim;
+    private bool isRunning = false;
 
     // Movement
     private CharacterController controller;
     private float jumpForce = 4.0f;
     private float gravity = 12.0f;
     private float verticalVelocity;
-    private readonly float speed = 7.0f;
     private int desiredLand = 1; // 0: Left, 1: Mid, 2: Right
+
+    // Speed Modifier
+    private float originalSpeed = 7.0f;
+    private float speed;
+    private float speedInscreaseLastTick = 7.0f;
+    private float speedInscreaseTime = 2.0f;
+    private float speedInscreaseAmount = 0.1f;
 
     // Const
     private const float LAND_DISTANCE = 3.0f;
     private const float TURN_SPEED = 0.05f;
+    private const float SLIDING_TIME = 1.0f;
     // - Land
     private const int LEFT = 0;
     private const int MID = 1;
     private const int RIGHT = 2;
     // - Animation
     private const string JUMP = "Jump";
+    private const string SLIDING = "Sliding";
     private const string GROUNDED = "Grounded";
+    private const string DEATH = "Death";
+    private const string STARTRUNNING = "StartRunning";
 
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+
+        speed = originalSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isRunning) return;
+
+        if(Time.time - speedInscreaseLastTick > speedInscreaseTime)
+        {
+            speedInscreaseLastTick = Time.time;
+            speed += speedInscreaseAmount;
+
+            // Update UI Speed
+            GameManager.Instance.UpdateModifier(speed - originalSpeed);
+        }
+
         //if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) { MoveLand(false); }
         //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) { MoveLand(true); }
 
@@ -55,19 +79,23 @@ public class PlayerController : MonoBehaviour
         // Calculate move delta
         Vector3 moveVector = Vector3.zero;
         moveVector.x = (targetPosition - transform.position).normalized.x * speed;
-        print(moveVector.x);
         // Calculate Y
-        bool isGrounded = controller.isGrounded;
+        bool isGrounded = controller.isGrounded; //IsGround();
         anim.SetBool(GROUNDED, isGrounded);
         if (isGrounded) // Grounded
         {
-            verticalVelocity = -.1f;
+            verticalVelocity = -0.1f;
 
             //if (Input.GetKeyDown(KeyCode.Space))
             if (MobileInput.Instance.SwipeUp)
             {
                 anim.SetTrigger(JUMP);
-                verticalVelocity = jumpForce; // jump                
+                verticalVelocity = jumpForce; // jump
+            }
+            else if (MobileInput.Instance.SwipeDown)
+            {
+                StartSliding(); // Sliding
+                Invoke("StopSliding", SLIDING_TIME);
             }
         }
         else
@@ -94,9 +122,55 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void MoveLand(bool direc)
+    private void StartSliding()
+    {
+        anim.SetBool(SLIDING, true);
+        controller.height = controller.height * 0.5f;
+        controller.center = new Vector3(controller.center.x, controller.center.y * 0.5f, controller.center.z);
+    }
+
+    private void StopSliding()
+    {
+        anim.SetBool(SLIDING, false);
+        controller.height = controller.height * 2;
+        controller.center = new Vector3(controller.center.x, controller.center.y * 2, controller.center.z);
+    }
+
+    private void MoveLand(bool direc)
     {
         desiredLand += !direc ? -1 : 1;
         desiredLand = Mathf.Clamp(desiredLand, LEFT, RIGHT);
+    }
+
+    private void Dead()
+    {
+        isRunning = false;
+        anim.SetTrigger(DEATH);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        switch (hit.gameObject.tag)
+        {
+            case "Obstacle":
+                print("Obstacle");
+                Dead();
+                break;
+
+        }
+    }
+
+    private bool IsGround()
+    {
+        Ray groundRay = new Ray(new Vector3(controller.bounds.center.x, (controller.bounds.center.y - controller.bounds.extents.y) + 0.2f, controller.bounds.center.z), Vector3.down);
+        Debug.DrawRay(groundRay.origin, groundRay.direction, Color.cyan, 0.5f);
+
+        return Physics.Raycast(groundRay, 0.2f + 0.1f);
+    }
+
+    public void StartStopGame()
+    {
+        isRunning = true;
+        anim.SetTrigger(STARTRUNNING);
     }
 }
