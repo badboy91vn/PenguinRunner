@@ -13,16 +13,4 @@ public class Piece : MonoBehaviour
 {
     public PieceType type;
     public int indexPiece;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

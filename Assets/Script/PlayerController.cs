@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVector = Vector3.zero;
         // -- Calculate X
         float x = Mathf.Clamp(transform.position.x, -LAND_DISTANCE, LAND_DISTANCE);
-        if (desiredLand == MID && x >= -0.1 && x <= 0.1) { x = 0; }
+        if (desiredLand == MID && x >= -0.2 && x <= 0.2) { x = 0; }
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
         moveVector.x = (targetPosition - transform.position).normalized.x * speed;
         // -- Calculate Y
