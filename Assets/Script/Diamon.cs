@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Diamon : MonoBehaviour
 {
     Animator anim;
 
@@ -13,7 +13,7 @@ public class Coin : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GameManager.Instance.UpdateCoin(true);
+            GameManager.Instance.UpdateDiamon(true);
             anim.SetTrigger("Collected");
         }
     }

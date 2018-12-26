@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isRunning) return;
 
-        if(Time.time - speedInscreaseLastTick > speedInscreaseTime)
+        if (Time.time - speedInscreaseLastTick > speedInscreaseTime)
         {
             speedInscreaseLastTick = Time.time;
             speed += speedInscreaseAmount;
@@ -78,13 +76,17 @@ public class PlayerController : MonoBehaviour
 
         // Calculate move delta
         Vector3 moveVector = Vector3.zero;
+        // -- Calculate X
+        float x = Mathf.Clamp(transform.position.x, -LAND_DISTANCE, LAND_DISTANCE);
+        if (desiredLand == MID && x >= -0.1 && x <= 0.1) { x = 0; }
+        transform.position = new Vector3(x, transform.position.y, transform.position.z);
         moveVector.x = (targetPosition - transform.position).normalized.x * speed;
-        // Calculate Y
+        // -- Calculate Y
         bool isGrounded = controller.isGrounded; //IsGround();
         anim.SetBool(GROUNDED, isGrounded);
         if (isGrounded) // Grounded
         {
-            verticalVelocity = -0.1f;
+            verticalVelocity = 0;//-0.1f;
 
             //if (Input.GetKeyDown(KeyCode.Space))
             if (MobileInput.Instance.SwipeUp)

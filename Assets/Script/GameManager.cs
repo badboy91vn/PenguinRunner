@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -11,11 +9,13 @@ public class GameManager : MonoBehaviour
     private PlayerController playerController;
 
     // UI
-    public Text scoreText, coinText, modifierText;
-    private float score, coin, modifierScore;
+    public Text scoreText, modifierText, coinText, diamonText;
+    private float score, modifierScore, coin, diamon;
     private int lastScore;
 
-    private const int COINT_SCORE = 5;
+    // Const
+    private const int COIN_SCORE = 5;
+    private const int DIAMON_SCORE = 10;
 
     void Awake()
     {
@@ -27,8 +27,9 @@ public class GameManager : MonoBehaviour
         modifierScore = 1;
 
         UpdateScore();
-        UpdateCoin(false);
         UpdateModifier(0);
+        UpdateCoin(false);
+        UpdateDiamon(false);
     }
 
     private void Update()
@@ -54,6 +55,11 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = "Score: " + score.ToString("0");
     }
+    public void UpdateModifier(float amount)
+    {
+        modifierScore += amount;
+        modifierText.text = "x" + modifierScore.ToString("0.0");
+    }
     public void UpdateCoin(bool isIncreaseScore)
     {
         coin++;
@@ -61,14 +67,17 @@ public class GameManager : MonoBehaviour
 
         if (!isIncreaseScore) return;
 
-        score += COINT_SCORE;
+        score += COIN_SCORE;
         UpdateScore();
     }
-    public void UpdateModifier(float amount)
+    public void UpdateDiamon(bool isIncreaseScore)
     {
-        modifierScore += amount;
-        modifierText.text = "x" + modifierScore.ToString("0.0");
+        diamon++;
+        diamonText.text = "Diamon: " + diamon.ToString("0");
+
+        if (!isIncreaseScore) return;
+
+        score += DIAMON_SCORE;
+        UpdateScore();
     }
-
-
 }
