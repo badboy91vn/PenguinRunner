@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     private float score, modifierScore, coin, diamon;
     private int lastScore;
 
+    // Death Menu
+    public Animator deathMenuAnim;
+    public Text deathScoreText, deathCoinText, deathDiamonText;
+
     void Awake()
     {
         Instance = this;
@@ -81,5 +85,20 @@ public class GameManager : MonoBehaviour
 
         score += DIAMON_SCORE;
         UpdateScore();
+    }
+
+    public void OnPlayButton()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+    }
+
+    public void OnDeath()
+    {
+        deathScoreText.text = scoreText.text;
+        deathCoinText.text = coinText.text;
+        deathDiamonText.text = diamonText.text;
+        deathMenuAnim.SetTrigger("Dead");
+
+        IsDead = true;
     }
 }

@@ -3,7 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_Curvatrue ("Curvatrue", Float) = 0.001
+		_Curvature ("Curvature", Float) = 0.002
     }
     SubShader
     {
@@ -14,7 +14,7 @@
 			#pragma surface surf Lambert vertex:vert addshadow
 
 			uniform sampler2D _MainTex;
-			uniform float _Curvatrue;
+			uniform float _Curvature;
 
 			struct Input
 			{
@@ -25,9 +25,9 @@
 			{
 				float4 worldSpace = mul(unity_ObjectToWorld, v.vertex);
 				worldSpace.xyz -= _WorldSpaceCameraPos.xyz;
-				worldSpace = float4( 0.0f, -_Curvatrue * (worldSpace.z * worldSpace.z), 0.0f, 0.0f);
+				worldSpace = float4( 0.0f, (worldSpace.z * worldSpace.z) * -_Curvature, 0.0f, 0.0f);
 
-				v.vertex += mul(unity_ObjectToWorld, worldSpace);
+				v.vertex += mul(unity_WorldToObject, worldSpace);
 			}
 
 			void surf(Input IN, inout SurfaceOutput o)
@@ -38,6 +38,5 @@
 			}
 		ENDCG
     }
-	
 	FallBack "Mobile/Diffuse"
 }

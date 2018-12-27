@@ -518,11 +518,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5580447762894556828}
     m_Modifications:
-    - target: {fileID: 8431779715844178671, guid: 811406f2bbcaaaa4393145924e2101d0,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinLine_5
-      objectReference: {fileID: 0}
     - target: {fileID: 8431779715844178656, guid: 811406f2bbcaaaa4393145924e2101d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -578,9 +573,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1755354985, guid: 811406f2bbcaaaa4393145924e2101d0, type: 3}
-      propertyPath: maxCoin
-      value: 3
+    - target: {fileID: 8431779715844178671, guid: 811406f2bbcaaaa4393145924e2101d0,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinLine_5
       objectReference: {fileID: 0}
     - target: {fileID: 1755354985, guid: 811406f2bbcaaaa4393145924e2101d0, type: 3}
       propertyPath: forceSpawnAll
@@ -601,11 +597,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5580447762894556828}
     m_Modifications:
-    - target: {fileID: 8617735221482758270, guid: 3cb5457a30350504c83af1a92744318a,
-        type: 3}
-      propertyPath: m_Name
-      value: Slide
-      objectReference: {fileID: 0}
     - target: {fileID: 3729766650946750894, guid: 3cb5457a30350504c83af1a92744318a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -660,6 +651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617735221482758270, guid: 3cb5457a30350504c83af1a92744318a,
+        type: 3}
+      propertyPath: m_Name
+      value: Slide
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cb5457a30350504c83af1a92744318a, type: 3}
