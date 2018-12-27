@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 7547125310631907195}
   - component: {fileID: 662012420}
   m_Layer: 0
-  m_Name: Diamond
+  m_Name: Mesh
   m_TagString: Diamon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

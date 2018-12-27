@@ -2,6 +2,22 @@
 
 public class PlayerController : MonoBehaviour
 {
+    // Const
+    private const float LAND_DISTANCE = 2.5f;
+    private const float TURN_SPEED = 0.05f;
+    private const float SLIDING_TIME = 1.0f;
+    // - Land
+    private const int LEFT = 0;
+    private const int MID = 1;
+    private const int RIGHT = 2;
+    // - Animation
+    private const string JUMP = "Jump";
+    private const string SLIDING = "Sliding";
+    private const string GROUNDED = "Grounded";
+    private const string DEATH = "Death";
+    private const string STARTRUNNING = "StartRunning";
+
+    // Gameplay
     private Animator anim;
     private bool isRunning = false;
 
@@ -18,21 +34,6 @@ public class PlayerController : MonoBehaviour
     private float speedInscreaseLastTick = 7.0f;
     private float speedInscreaseTime = 2.0f;
     private float speedInscreaseAmount = 0.1f;
-
-    // Const
-    private const float LAND_DISTANCE = 3.0f;
-    private const float TURN_SPEED = 0.05f;
-    private const float SLIDING_TIME = 1.0f;
-    // - Land
-    private const int LEFT = 0;
-    private const int MID = 1;
-    private const int RIGHT = 2;
-    // - Animation
-    private const string JUMP = "Jump";
-    private const string SLIDING = "Sliding";
-    private const string GROUNDED = "Grounded";
-    private const string DEATH = "Death";
-    private const string STARTRUNNING = "StartRunning";
 
     // Use this for initialization
     void Start()
@@ -148,6 +149,7 @@ public class PlayerController : MonoBehaviour
     {
         isRunning = false;
         anim.SetTrigger(DEATH);
+        GameManager.Instance.IsDead = true;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

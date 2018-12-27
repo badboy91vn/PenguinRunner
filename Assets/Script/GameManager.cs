@@ -5,17 +5,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; set; }
 
-    private bool isGameStart = false;
+    // Const
+    private const int COIN_SCORE = 5;
+    private const int DIAMON_SCORE = 10;
+
+    // Gameplay
+    public bool IsDead { get; set; }
+    private bool isGameStart = false;    
     private PlayerController playerController;
 
     // UI
     public Text scoreText, modifierText, coinText, diamonText;
     private float score, modifierScore, coin, diamon;
     private int lastScore;
-
-    // Const
-    private const int COIN_SCORE = 5;
-    private const int DIAMON_SCORE = 10;
 
     void Awake()
     {
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
             playerController.StartStopGame();
         }
 
-        if (isGameStart)
+        if (isGameStart && !IsDead)
         {
             score += (Time.deltaTime * modifierScore);
             if (lastScore != (int)score)

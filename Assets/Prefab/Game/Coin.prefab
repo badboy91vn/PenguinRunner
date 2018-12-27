@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5317850607770244758}
   - component: {fileID: 5317850607770244753}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: Mesh
   m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,10 +169,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5317850608344735186}
     m_Modifications:
-    - target: {fileID: 730560067, guid: bf0def57ed1f9f841b52f3145dcce19c, type: 3}
-      propertyPath: m_Name
-      value: Coin
-      objectReference: {fileID: 0}
     - target: {fileID: 4038454178624160414, guid: bf0def57ed1f9f841b52f3145dcce19c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -242,6 +238,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 730560067, guid: bf0def57ed1f9f841b52f3145dcce19c, type: 3}
+      propertyPath: m_Name
+      value: Mesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf0def57ed1f9f841b52f3145dcce19c, type: 3}

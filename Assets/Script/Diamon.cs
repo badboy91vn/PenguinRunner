@@ -4,9 +4,14 @@ public class Diamon : MonoBehaviour
 {
     Animator anim;
 
-    private void Start()
+    private void Awake()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        anim.SetTrigger("Spawn");
     }
 
     private void OnTriggerEnter(Collider other)
