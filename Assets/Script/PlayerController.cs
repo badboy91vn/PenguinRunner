@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
         moveVector.x = (targetPosition - transform.position).normalized.x * speed;
         // -- Calculate Y
-        bool isGrounded = controller.isGrounded; //IsGround();
+        bool isGrounded = IsGround(); // controller.isGrounded; //
         anim.SetBool(GROUNDED, isGrounded);
         if (isGrounded) // Grounded
         {
@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour
                 print("Obstacle");
                 Dead();
                 break;
-
         }
     }
 
@@ -172,7 +171,7 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(groundRay, 0.2f + 0.1f);
     }
 
-    public void StartStopGame()
+    public void StartGame()
     {
         isRunning = true;
         anim.SetTrigger(STARTRUNNING);

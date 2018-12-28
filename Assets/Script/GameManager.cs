@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviour
     private PlayerController playerController;
 
     // UI
+    public Animator gameMenuAnim;
     public Text scoreText, modifierText, coinText, diamonText;
     private float score, modifierScore, coin, diamon;
-    private int lastScore;
+    private int lastScore;    
 
     // Death Menu
     public Animator deathMenuAnim;
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
         UpdateModifier(0);
         UpdateCoin(false);
         UpdateDiamon(false);
+
+        gameMenuAnim.SetTrigger("Hide");
     }
 
     private void Update()
@@ -43,7 +46,11 @@ public class GameManager : MonoBehaviour
         if (MobileInput.Instance.Tap && !isGameStart)
         {
             isGameStart = true;
-            playerController.StartStopGame();
+            playerController.StartGame();
+            //GlacierSpawner.Instance.IsScrolling = true;
+            FindObjectOfType<GlacierSpawner>().IsScrolling = true;
+            FindObjectOfType<CameraController>().IsMoving = true;
+            gameMenuAnim.SetTrigger("Show");
         }
 
         if (isGameStart && !IsDead)
@@ -69,7 +76,7 @@ public class GameManager : MonoBehaviour
     public void UpdateCoin(bool isIncreaseScore)
     {
         coin++;
-        coinText.text = "Coin: " + coin.ToString("0");
+        coinText.text = coin.ToString("0");
 
         if (!isIncreaseScore) return;
 
@@ -79,7 +86,7 @@ public class GameManager : MonoBehaviour
     public void UpdateDiamon(bool isIncreaseScore)
     {
         diamon++;
-        diamonText.text = "Diamon: " + diamon.ToString("0");
+        diamonText.text = diamon.ToString("0");
 
         if (!isIncreaseScore) return;
 
@@ -100,5 +107,10 @@ public class GameManager : MonoBehaviour
         deathMenuAnim.SetTrigger("Dead");
 
         IsDead = true;
+
+        gameMenuAnim.SetTrigger("Hide");
+
+        //GlacierSpawner.Instance.IsScrolling = false;
+        FindObjectOfType<GlacierSpawner>().IsScrolling = false;
     }
 }

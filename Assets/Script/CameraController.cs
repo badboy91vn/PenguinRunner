@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public bool IsMoving { get; set; }
+
     public Transform lookAt; // Player
     public Vector3 offset = new Vector3(0, 2.0f, -5.5f);
+    public Vector3 rotation = new Vector3(35.0f, 0.0f, 0.0f);
+
     private const float speedMove = 0.5f;
     private Vector3 move;
 
-    private void Start()
-    {
-        transform.position = lookAt.position + offset;
-    }
-
     private void LateUpdate()
     {
+        if (!IsMoving) return;
+
         move = lookAt.position + offset;
         //move.x = 0f;
         transform.position = Vector3.Lerp(transform.position, move, speedMove);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotation), 2.5f);
     }
 }

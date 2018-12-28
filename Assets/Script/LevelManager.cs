@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     private int y1, y2, y3;
 
     // Gameplay
-    private bool isMoving = false;
+    //private bool isMoving = false;
 
     private void Awake()
     {
