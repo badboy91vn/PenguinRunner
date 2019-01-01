@@ -11,14 +11,14 @@ public class GameManager : MonoBehaviour
 
     // Gameplay
     public bool IsDead { get; set; }
-    private bool isGameStart = false;    
+    private bool isGameStart = false;
     private PlayerController playerController;
 
     // UI
     public Animator gameMenuAnim;
     public Text scoreText, modifierText, coinText, diamonText;
     private float score, modifierScore, coin, diamon;
-    private int lastScore;    
+    private int lastScore;
 
     // Death Menu
     public Animator deathMenuAnim;
@@ -112,5 +112,13 @@ public class GameManager : MonoBehaviour
 
         //GlacierSpawner.Instance.IsScrolling = false;
         FindObjectOfType<GlacierSpawner>().IsScrolling = false;
+
+        // Check Highscore
+        if (score > PlayerPrefs.GetInt("Highscore"))
+        {
+            float s = score % 1 == 0 ? score + 1 : score;
+
+            PlayerPrefs.SetInt("Highscore", (int)s);
+        }
     }
 }
