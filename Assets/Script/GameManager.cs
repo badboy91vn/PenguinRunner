@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     // UI
     public Animator gameMenuAnim;
+    public Animator menuAnim;
+    public Text highScoreText;
     public Text scoreText, modifierText, coinText, diamonText;
     private float score, modifierScore, coin, diamon;
     private int lastScore;
@@ -39,20 +41,12 @@ public class GameManager : MonoBehaviour
         UpdateDiamon(false);
 
         gameMenuAnim.SetTrigger("Hide");
+
+        highScoreText.text = PlayerPrefs.GetInt("Highscore").ToString();
     }
 
     private void Update()
     {
-        if (MobileInput.Instance.Tap && !isGameStart)
-        {
-            isGameStart = true;
-            playerController.StartGame();
-            //GlacierSpawner.Instance.IsScrolling = true;
-            FindObjectOfType<GlacierSpawner>().IsScrolling = true;
-            FindObjectOfType<CameraController>().IsMoving = true;
-            gameMenuAnim.SetTrigger("Show");
-        }
-
         if (isGameStart && !IsDead)
         {
             score += (Time.deltaTime * modifierScore);
@@ -62,6 +56,21 @@ public class GameManager : MonoBehaviour
                 UpdateScore();
             }
         }
+    }
+
+    public void StartGame()
+    {
+        print("Click BTN PLAY");
+        //if (MobileInput.Instance.Tap && !isGameStart)
+        //{
+        isGameStart = true;
+        playerController.StartGame();
+        //GlacierSpawner.Instance.IsScrolling = true;
+        FindObjectOfType<GlacierSpawner>().IsScrolling = true;
+        FindObjectOfType<CameraController>().IsMoving = true;
+        gameMenuAnim.SetTrigger("Show");
+        menuAnim.SetTrigger("Hide");
+        //}
     }
 
     public void UpdateScore()
