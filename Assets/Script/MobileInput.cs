@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MobileInput : MonoBehaviour
 {
@@ -32,11 +31,13 @@ public class MobileInput : MonoBehaviour
         #region Standalone Input
         if (Input.GetMouseButtonDown(0))
         {
+            print("Mouse Down");
             tap = true;
             startTouch = Input.mousePosition;
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            print("Mouse up");
             startTouch = swipeDelta = Vector2.zero;
         }
         #endregion
