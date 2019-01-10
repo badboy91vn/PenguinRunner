@@ -113,7 +113,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 1.1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -150,7 +150,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.hnllbh.penguinrunner
   buildNumber: {}
-  AndroidBundleVersionCode: 1
+  AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -238,7 +238,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: E:/UnityInstall/Project/PenguinRunner/Keystore/penguinrunner.keystore
+  AndroidKeystoreName: D:/Unity 3D/Projects/PenguinRunner/Keystore/penguinrunner.keystore
   AndroidKeyaliasName: penguinrunner
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
