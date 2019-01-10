@@ -24,7 +24,8 @@
 
 public static class PR_GPGS
 {
-        public const string achievement_testachievement = "CgkIvvT7wIoYEAIQAQ"; // <GPGSID>
+        public const string leaderboard_highscore = "CgkIvvT7wIoYEAIQAw"; // <GPGSID>
+        public const string achievement_login = "CgkIvvT7wIoYEAIQAg"; // <GPGSID>
 
 }
 

@@ -176,4 +176,5 @@ public class PlayerController : MonoBehaviour
         isRunning = true;
         anim.SetTrigger(STARTRUNNING);
     }
+
 }

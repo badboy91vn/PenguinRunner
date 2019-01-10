@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GooglePlayGames;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     // Gameplay
     public bool IsDead { get; set; }
-    private bool isGameStart = false;
+    private bool IsGameStart = false;
     private PlayerController playerController;
 
     // UI
@@ -21,10 +22,11 @@ public class GameManager : MonoBehaviour
     public Text scoreText, modifierText, coinText, diamonText;
     private float score, modifierScore, coin, diamon;
     private int lastScore;
-
-    // Death Menu
+    // -- Death Menu
     public Animator deathMenuAnim;
     public Text deathScoreText, deathCoinText, deathDiamonText;
+    // -- GPGS Menu
+    public GameObject connectedGPGSBTN, disconnectedGPGSBTN;
 
     void Awake()
     {
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
         score = 0;
         coin = 0;
         modifierScore = 1;
+        IsGameStart = false;
 
         UpdateScore();
         UpdateModifier(0);
@@ -43,11 +46,15 @@ public class GameManager : MonoBehaviour
         gameMenuAnim.SetTrigger("Hide");
 
         highScoreText.text = PlayerPrefs.GetInt("Highscore").ToString();
+
+        // GPGS
+        PlayGamesPlatform.Activate();
+        OnConnectionResponse(PlayGamesPlatform.Instance.localUser.authenticated);
     }
 
     private void Update()
     {
-        if (isGameStart && !IsDead)
+        if (IsGameStart && !IsDead)
         {
             score += (Time.deltaTime * modifierScore);
             if (lastScore != (int)score)
@@ -60,10 +67,9 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        print("Click BTN PLAY");
         //if (MobileInput.Instance.Tap && !isGameStart)
         //{
-        isGameStart = true;
+        IsGameStart = true;
         playerController.StartGame();
         //GlacierSpawner.Instance.IsScrolling = true;
         FindObjectOfType<GlacierSpawner>().IsScrolling = true;
@@ -123,6 +129,7 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<GlacierSpawner>().IsScrolling = false;
 
         // Check Highscore
+        ReportScore((int)score);
         if (score > PlayerPrefs.GetInt("Highscore"))
         {
             float s = score % 1 == 0 ? score + 1 : score;
@@ -130,4 +137,58 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Highscore", (int)s);
         }
     }
+
+    // Google Play Services
+    public void OnClickConnectGPGS()
+    {
+        Social.localUser.Authenticate((bool success) => { OnConnectionResponse(success); });
+    }
+    private void OnConnectionResponse(bool authenticated)
+    {
+        print(authenticated);
+        if (authenticated)
+        {
+            UnlockAchievement(PR_GPGS.achievement_login);
+            connectedGPGSBTN.SetActive(true);
+            disconnectedGPGSBTN.SetActive(false);
+        }
+        else
+        {
+            connectedGPGSBTN.SetActive(false);
+            disconnectedGPGSBTN.SetActive(true);
+        }
+    }
+
+    // Leadboard
+    public void OnClickLeadboard()
+    {
+        if (Social.localUser.authenticated)
+        {
+            Social.ShowLeaderboardUI();
+        }
+    }
+    public void ReportScore(int score)
+    {
+        Social.ReportScore(score, PR_GPGS.leaderboard_highscore, (bool succ) =>
+        {
+            Debug.Log("Report to Leaderboard: " + succ.ToString());
+        });
+    }
+
+    // Achievement
+    public void OnClickAchievement()
+    {
+        if (Social.localUser.authenticated)
+        {
+            Social.ShowAchievementsUI();
+        }
+    }
+    public void UnlockAchievement(string achievement)
+    {
+        Social.ReportProgress(achievement, 100.0f, (bool succ) =>
+        {
+            Debug.Log("Achievement Unlock: " + succ.ToString());
+        });
+    }
+
 }

@@ -31,13 +31,11 @@ public class MobileInput : MonoBehaviour
         #region Standalone Input
         if (Input.GetMouseButtonDown(0))
         {
-            print("Mouse Down");
             tap = true;
             startTouch = Input.mousePosition;
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            print("Mouse up");
             startTouch = swipeDelta = Vector2.zero;
         }
         #endregion
@@ -93,4 +91,5 @@ public class MobileInput : MonoBehaviour
             startTouch = swipeDelta = Vector2.zero;
         }
     }
+
 }
