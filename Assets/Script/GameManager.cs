@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     public Text deathScoreText, deathCoinText, deathDiamonText;
     // -- GPGS Menu
     public GameObject connectedGPGSBTN, disconnectedGPGSBTN;
-    public Text gpgsText;
 
     void Awake()
     {
@@ -53,6 +52,7 @@ public class GameManager : MonoBehaviour
         // GPGS
         GooglePlayGames.BasicApi.PlayGamesClientConfiguration config = new GooglePlayGames.BasicApi.PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
         PlayGamesPlatform.InitializeInstance(config);
+        //PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         OnConnectionResponse(PlayGamesPlatform.Instance.localUser.authenticated);
     }
@@ -152,14 +152,12 @@ public class GameManager : MonoBehaviour
     {
         Social.localUser.Authenticate((bool success) =>
         {
-            print("Authen: " + success.ToString());
+            print("Authentication: " + success.ToString());
             OnConnectionResponse(success);
         });
     }
     private void OnConnectionResponse(bool authenticated)
     {
-        print(authenticated);
-        gpgsText.text = authenticated.ToString();
         if (authenticated)
         {
             UnlockAchievement(PR_GPGS.achievement_login);
