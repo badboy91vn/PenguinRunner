@@ -3,6 +3,8 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +13,15 @@ public class GameManager : MonoBehaviour
     // Const
     private const int COIN_SCORE = 5;
     private const int DIAMON_SCORE = 10;
+#if UNITY_IOS
+    private const string gameID = "3003551";
+#elif UNITY_ANDROID
+    private const string gameID = "3003550";
+#elif UNITY_EDITOR
+    private const string gameID = "1111111";
+#endif
+    private const string VIDEO_ADS = "video";
+    private const string REWARDED_VIDEO_ADS = "rewardedVideo";
 
     // Gameplay
     public bool IsDead { get; set; }
@@ -49,12 +60,49 @@ public class GameManager : MonoBehaviour
 
         highScoreText.text = PlayerPrefs.GetInt("Highscore").ToString();
 
+        // Ads
+        Advertisement.Initialize(gameID, true);
+
         // GPGS
         GooglePlayGames.BasicApi.PlayGamesClientConfiguration config = new GooglePlayGames.BasicApi.PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
         PlayGamesPlatform.InitializeInstance(config);
         //PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         OnConnectionResponse(PlayGamesPlatform.Instance.localUser.authenticated);
+    }
+
+    public void ShowAdsVideo()
+    {
+        ShowOptions so = new ShowOptions();
+        so.resultCallback = Revive;
+
+        if (Advertisement.IsReady()) { 
+            Advertisement.Show(REWARDED_VIDEO_ADS, so);
+        }
+        else
+        {
+            Debug.Log("CHua co video!!!");
+        }
+    }
+    private void Revive(ShowResult sr)
+    {
+        if (sr == ShowResult.Finished) // If ads was played successfully
+        {
+            FindObjectOfType<PlayerController>().Revive();
+            IsDead = false;
+
+            foreach (GlacierSpawner gs in FindObjectsOfType<GlacierSpawner>())
+            {
+                gs.IsScrolling = true;
+            }
+
+            deathMenuAnim.SetTrigger("Alive");
+            gameMenuAnim.SetTrigger("Show");
+        }
+        else
+        {
+            OnPlayButton();
+        }
     }
 
     private void Update()

@@ -152,6 +152,11 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.OnDeath();
     }
 
+    public void Revive()
+    {
+        isRunning = true;
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         switch (hit.gameObject.tag)
