@@ -63,12 +63,14 @@ public class GameManager : MonoBehaviour
         // Ads
         Advertisement.Initialize(gameID, true);
 
+#if UNITY_ANDROID
         // GPGS
         GooglePlayGames.BasicApi.PlayGamesClientConfiguration config = new GooglePlayGames.BasicApi.PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
         PlayGamesPlatform.InitializeInstance(config);
         //PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         OnConnectionResponse(PlayGamesPlatform.Instance.localUser.authenticated);
+#endif
     }
 
     public void ShowAdsVideo()
