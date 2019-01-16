@@ -280,6 +280,7 @@ public class GameManager : MonoBehaviour
     public void OpenSave(bool saving)
     {
         Debug.Log("Open Save");
+#if UNITY_ANDROID
         if (Social.localUser.authenticated)
         {
             isSaving = saving;
@@ -289,10 +290,12 @@ public class GameManager : MonoBehaviour
                     GooglePlayGames.BasicApi.DataSource.ReadCacheOrNetwork,
                     GooglePlayGames.BasicApi.SavedGame.ConflictResolutionStrategy.UseLongestPlaytime, SaveGameOpened);
         }
+#endif
     }
     private void SaveGameOpened(SavedGameRequestStatus status, ISavedGameMetadata meta)
     {
         Debug.Log("SaveGameOpened");
+#if UNITY_ANDROID
         if (status == SavedGameRequestStatus.Success)
         {
             if (isSaving) // writing
@@ -307,6 +310,7 @@ public class GameManager : MonoBehaviour
                 ((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(meta, SaveRead);
             }
         }
+#endif
     }
     // Load
     private void SaveRead(SavedGameRequestStatus status, byte[] data)
