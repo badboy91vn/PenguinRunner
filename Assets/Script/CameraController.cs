@@ -18,8 +18,7 @@ public class CameraController : MonoBehaviour
         if (!IsMoving) return;
 
         move = lookAt.position + offset;
-        //move.x = 0f;
         transform.position = Vector3.Lerp(transform.position, move, speedMove);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotation), 2.5f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotation), 0.1f);
     }
 }

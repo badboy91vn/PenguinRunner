@@ -58,11 +58,8 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.UpdateModifier(speed - originalSpeed);
         }
 
-        //if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) { MoveLand(false); }
-        //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) { MoveLand(true); }
-
-        if (MobileInput.Instance.SwipeLeft) MoveLand(false);
-        if (MobileInput.Instance.SwipeRight) MoveLand(true);
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || MobileInput.Instance.SwipeLeft) MoveLand(false);
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) ||MobileInput.Instance.SwipeRight) MoveLand(true);
 
         // Calculate where we should be in furture
         Vector3 targetPosition = transform.position.z * Vector3.forward;
@@ -90,12 +87,12 @@ public class PlayerController : MonoBehaviour
             verticalVelocity = 0;//-0.1f;
 
             //if (Input.GetKeyDown(KeyCode.Space))
-            if (MobileInput.Instance.SwipeUp)
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ||MobileInput.Instance.SwipeUp)
             {
                 anim.SetTrigger(JUMP);
                 verticalVelocity = jumpForce; // jump
             }
-            else if (MobileInput.Instance.SwipeDown)
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || MobileInput.Instance.SwipeDown)
             {
                 StartSliding(); // Sliding
                 Invoke("StopSliding", SLIDING_TIME);
