@@ -149,6 +149,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.hnllbh.penguinrunner
+    iOS: com.hnllbh.penguinrunner
   buildNumber: {}
   AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 16
